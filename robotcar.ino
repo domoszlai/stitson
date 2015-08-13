@@ -6,8 +6,8 @@
 
 Wheel RR(5, 3, 4);
 Wheel FR(6, 7, 8);
-Wheel FL(9, 11, 12);
-Wheel RL(10, 13, 2);
+Wheel FL(A5, A3, 12);
+Wheel RL(A4, 13, 2);
 
 HCSR04 D(A2,A1);
 
@@ -19,7 +19,7 @@ void setup()
 {
     // Initialize the serial connection:
     Serial.begin(9600);
-    
+        
     main_thread_list->add_thread(&FL);  
     main_thread_list->add_thread(&FR);  
     main_thread_list->add_thread(&RL);
