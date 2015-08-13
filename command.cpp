@@ -1,16 +1,18 @@
 #include "command.h"
 
-Command::Command(Wheel* FL, Wheel* FR, Wheel* RL, Wheel* RR, Speaker* speaker)
+Command::Command(Wheel* FL, Wheel* FR, Wheel* RL, Wheel* RR, Speaker* speaker, HCSR04* D)
 {
     this->FL = FL;
     this->FR = FR;
     this->RL = RL;
     this->RR = RR;
     this->speaker = speaker;
+    this->D = D;
         
     this->speed = 1;
     this->maxMovement = 30;
     this->endTime = 0; // turn off timer
+    this->forward = false;
 }
 
 void Command::play(Melody melody, int count)
@@ -45,24 +47,32 @@ void Command::startTimer()
 
 void Command::goForward()
 {
+    if(D->measure()<MINDISTANCE) return;
+  
+    forward = true;  
+  
     FL->goForward();
     FR->goForward();    
     RL->goForward();
     RR->goForward();
-    this->startTimer();
+    this->startTimer();    
 }
 
 void Command::goBackward()
-{
+{ 
+    forward = false;  
+  
     FL->goBackward();
     FR->goBackward();    
     RL->goBackward();
     RR->goBackward();    
-    this->startTimer();    
+    this->startTimer();
 }
 
 void Command::stop()
 {
+    forward = false;  
+    
     FL->stop();
     FR->stop();    
     RL->stop();
@@ -72,6 +82,8 @@ void Command::stop()
 
 void Command::turnLeft()
 {
+    forward = false;  
+    
     FL->stop();
     FR->goForward();    
     RL->stop();
@@ -81,6 +93,8 @@ void Command::turnLeft()
 
 void Command::turnRight()
 {
+    forward = false;  
+  
     FR->stop();
     FL->goForward();    
     RL->goForward();
@@ -96,6 +110,11 @@ bool Command::loop()
         {
             this->stop();
         }  
+    }
+    
+    if(D->measure()<MINDISTANCE && this->forward)
+    {
+      this->stop();
     }
     
     return true;    

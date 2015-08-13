@@ -9,9 +9,11 @@ Wheel FR(6, 7, 8);
 Wheel FL(9, 11, 12);
 Wheel RL(10, 13, 2);
 
+HCSR04 D(A2,A1);
+
 Speaker speaker(A0);
 
-Command command(&FL,&FR,&RL,&RR,&speaker);
+Command command(&FL,&FR,&RL,&RR,&speaker,&D);
 
 void setup()
 {
