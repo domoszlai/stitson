@@ -47,6 +47,14 @@ bool SerialInput::loop()
             command->play(MELODY1, 1);
             movement = false;            
             break;
+        case '[':
+            command->lightOn();
+            movement = false;            
+            break;            
+        case ']':
+            command->lightOff();
+            movement = false;            
+            break;            
         }   
         
 #ifndef REALTIME

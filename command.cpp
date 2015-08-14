@@ -1,6 +1,6 @@
 #include "command.h"
 
-Command::Command(Wheel* FL, Wheel* FR, Wheel* RL, Wheel* RR, Speaker* speaker, HCSR04* D)
+Command::Command(Wheel* FL, Wheel* FR, Wheel* RL, Wheel* RR, Speaker* speaker, HCSR04* D, Light* light)
 {
     this->FL = FL;
     this->FR = FR;
@@ -8,6 +8,7 @@ Command::Command(Wheel* FL, Wheel* FR, Wheel* RL, Wheel* RR, Speaker* speaker, H
     this->RR = RR;
     this->speaker = speaker;
     this->D = D;
+    this->light = light;
         
     this->speed = 1;
     this->maxMovement = 30;
@@ -18,6 +19,16 @@ Command::Command(Wheel* FL, Wheel* FR, Wheel* RL, Wheel* RR, Speaker* speaker, H
 void Command::play(Melody melody, int count)
 {
     speaker->play(melody, count);  
+}
+
+void Command::lightOn()
+{
+    light->start();  
+}
+
+void Command::lightOff()
+{
+    light->stop();  
 }
 
 void Command::setSpeed(float speed)

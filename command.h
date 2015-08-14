@@ -7,11 +7,12 @@
 #include "wheel.h"
 #include "speaker.h"
 #include "hcsr04.h"
+#include "light.h"
 
 class Command : public Thread
 {
 public:
-    Command(Wheel* FL, Wheel* FR, Wheel* RL, Wheel* RR, Speaker* speaker, HCSR04* D);
+    Command(Wheel* FL, Wheel* FR, Wheel* RL, Wheel* RR, Speaker* speaker, HCSR04* D, Light* light);
 
     void setSpeed(float speed); // 0-1
     float getSpeed();
@@ -26,6 +27,9 @@ public:
     
     void play(Melody melody, int count); // -1 means until stop    
 
+    void lightOn();
+    void lightOff();
+    
 protected:
     bool loop();
     
@@ -43,6 +47,7 @@ private:
     Wheel* RR;
     Speaker* speaker;
     HCSR04* D;
+    Light* light;
 };
 
 #endif  // COMMAND_H
