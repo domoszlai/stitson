@@ -1,7 +1,7 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#define MINDISTANCE 4
+#define MINDISTANCE 6
 
 #include "mthread.h"
 #include "wheel.h"

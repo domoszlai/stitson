@@ -1,6 +1,7 @@
 #include "mthread.h"
 #include "speaker.h"
 #include "pitches.h"
+#include "NewTone.h"
 
 Speaker::Speaker(int speakerPin)
 {
@@ -82,12 +83,12 @@ bool Speaker::loop()
 
             if(this->state <= 1800) // go up to 1800
             {
-                tone(speakerPin, this->state++, time);  // Beep pin, freq, time
+                NewTone(speakerPin, this->state++, time);  // Beep pin, freq, time
                 sleep_milli(wait);
             }
             else if(this->state > 1800 && this->state < 1800 + 1800 - 150) // go down to 150
             {
-                tone(speakerPin, 1800 - (this->state - 1800), time);
+                NewTone(speakerPin, 1800 - (this->state - 1800), time);
                 sleep_milli(wait);
                 this->state++;
             }
@@ -106,7 +107,7 @@ bool Speaker::loop()
               4, 8, 8, 4, 4, 4, 4, 4 };          
 
             // stop the tone playing:
-            noTone(speakerPin);
+            noNewTone(speakerPin);
 
             int thisNote = state++;
       
@@ -116,7 +117,7 @@ bool Speaker::loop()
                 // divided by the note type.
                 //e.g. quarter note = 1000 / 4, eighth note = 1000/8, etc.
                 int noteDuration = 1000/noteDurations[thisNote];
-                tone(speakerPin, melody[thisNote], noteDuration);
+                NewTone(speakerPin, melody[thisNote], noteDuration);
             
                 // to distinguish the notes, set a minimum time between them.
                 // the note's duration + 30% seems to work well:
