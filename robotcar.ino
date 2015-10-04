@@ -4,6 +4,7 @@
 #include "speaker.h"
 #include "light.h"
 #include "serialinput.h"
+#include "ps2input.h"
 
 // PWM pins: 3,5,6,9,10,11
 
@@ -23,7 +24,7 @@ Command command(&FL,&FR,&RL,&RR,&speaker,&D,&light);
 
 void setup()
 {
-    // Initialize the serial connection:
+    // Initialize the serial connection. Does not work witg PS2 controller
     Serial.begin(9600);
 
     light.set(0,1.0,0);
@@ -39,14 +40,9 @@ void setup()
     main_thread_list->add_thread(&light);
     
     main_thread_list->add_thread(new SerialInput(&command));    
+    //main_thread_list->add_thread(new PS2Input(0,1,9,10, &command));   
     
-//    command.setMaxMovementTime(500);
-//    command.turnLeft();
-//    command.play(MELODY1, 2);
-  
-    //BL.goForward();
-    //delay(500);
-    //BL.setSpeed(0.2);    
+    command.goForward();
 }
 
 

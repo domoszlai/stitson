@@ -21,6 +21,11 @@ void Command::play(Melody melody, int count)
     speaker->play(melody, count);  
 }
 
+void Command::mute()
+{
+    speaker->stop();  
+}
+
 void Command::lightOn()
 {
     light->start();  

@@ -7,8 +7,9 @@ Speaker::Speaker(int speakerPin)
 {
     this->speakerPin = speakerPin;
     this->nextCount = 0;
-    
-    pinMode(speakerPin,OUTPUT);
+
+    if(speakerPin != -1)    
+      pinMode(speakerPin,OUTPUT);
 }
 
 void Speaker::play(Melody melody, int count)
@@ -72,6 +73,8 @@ void Speaker::stop()
 
 bool Speaker::loop()
 {
+    if(speakerPin == -1) return false;
+  
     if(this->count != 0)
     {
         if(melody == SIREN)

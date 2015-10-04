@@ -26,7 +26,8 @@ public:
     void turnRight();
     
     void play(Melody melody, int count); // -1 means until stop    
-
+    void mute();
+    
     void lightOn();
     void lightOff();
     
