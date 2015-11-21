@@ -16,7 +16,7 @@ bool PS2Input::loop()
     {
       command->play(SIREN, 1);
     }
-    
+        
     if(ps2x.ButtonPressed(PSB_CROSS))
     {
       command->play(MELODY1, 1);
@@ -47,15 +47,31 @@ bool PS2Input::loop()
     byte y = ps2x.Analog(PSS_LY);
     if(y > 128)
     {
-        command->goForward();
-    }
-    else if(y < 128)
-    {
+        command->setSpeed((y-129)/129.0);
         command->goBackward();
+    }
+    else if(y < 126)
+    {
+        command->setSpeed((127-y)/126.0);
+        command->goForward();
     }
     else
     {
-        command->stop();        
+        byte x = ps2x.Analog(PSS_LX);
+        if(x > 128)
+        {
+            command->setSpeed(1);
+            command->turnRight();
+        }
+        else if(x < 126)
+        {
+            command->setSpeed(1);
+            command->turnLeft();
+        }
+        else
+        {
+            command->stop();        
+        }
     }
     
     sleep_milli(50);
