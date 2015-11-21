@@ -42,6 +42,7 @@ void Wheel::stop()
 void Wheel::setSpeed(float speed)
 {
     if(speed < 0 || speed > 1) return;
+    if(speed < 0.3) speed = 0.3;
     this->speed = speed;
     
     // Set new speed if the motor is working
