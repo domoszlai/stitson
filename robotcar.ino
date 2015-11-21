@@ -6,19 +6,14 @@
 #include "serialinput.h"
 #include "ps2input.h"
 
-// PWM pins: 3,5,6,9,10,11
+Wheel RR(5, 34, 32);
+Wheel RL(4, 30, 28);
+Wheel FR(2, 38, 36);
+Wheel FL(3, 42, 40);
 
-// Same speed pin, must be PWM
-Wheel RR(11, 12, 4);
-Wheel FR(11, 7, 8);
-Wheel FL(11, A3, A4);
-Wheel RL(11, 13, 2);
-
-HCSR04 D(A2,A1);
-
-Speaker speaker(A0);
-
-Light light = Light(6,5,3);
+HCSR04 D(A0,A1);
+Speaker speaker(A2);
+Light light(6,7,8);
 
 Command command(&FL,&FR,&RL,&RR,&speaker,&D,&light);
 
@@ -27,9 +22,9 @@ void setup()
     // Initialize the serial connection. Does not work witg PS2 controller
     Serial.begin(9600);
 
-    light.set(0,1.0,0);
-    delay(1000);
-    light.set(0,0,0);
+//    light.set(0,1.0,0);
+//    delay(1000);
+//    light.set(0,0,0);
         
     main_thread_list->add_thread(&FL);  
     main_thread_list->add_thread(&FR);  
@@ -39,10 +34,8 @@ void setup()
     main_thread_list->add_thread(&command); 
     main_thread_list->add_thread(&light);
     
-    main_thread_list->add_thread(new SerialInput(&command));    
-    //main_thread_list->add_thread(new PS2Input(0,1,9,10, &command));   
-    
-    command.goForward();
+//    main_thread_list->add_thread(new SerialInput(&command));
+    main_thread_list->add_thread(new PS2Input(50,48,46,44, &command));   
 }
 
 
