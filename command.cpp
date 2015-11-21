@@ -128,10 +128,10 @@ bool Command::loop()
         }  
     }
     
-/*    if(D->measure()<MINDISTANCE && this->forward)
+    if(D->measure()<MINDISTANCE && this->forward)
     {
       this->stop();
-    }*/
+    }
     
     return true;    
 }
