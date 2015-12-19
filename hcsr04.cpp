@@ -10,9 +10,14 @@ HCSR04* sonarAdapter;
 HCSR04::HCSR04(int triggerPin, int echoPin)
 {
     sonarAdapter = this;
+
+    #ifdef ENABLE_SONAR
     this->sonar = new NewPing(triggerPin, echoPin, 200);
     this->lastMeasure = MAX_DISTANCE;
     this->lastMeasureTime = 0;
+    #else
+    this->sonar = NULL;
+    #endif
 }
 
 void globalEchoCheck()
@@ -46,6 +51,8 @@ long HCSR04::measure()
 
 bool HCSR04::loop()
 {
+    if(this->sonar == NULL) return false;
+  
     if (millis() >= this->lastMeasureTime + PING_INTERVAL) 
     {
         this->lastMeasureTime = millis();
