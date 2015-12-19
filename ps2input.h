@@ -1,8 +1,8 @@
 #ifndef PS2INPUT_H
 #define PS2INPUT_H
 
-#include "PS2X_lib.h"
-#include "mthread.h"
+#include <PS2X_lib.h>
+#include <mthread.h>
 #include "command.h"
 
 class PS2Input : public Thread

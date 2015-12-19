@@ -1,8 +1,8 @@
 #ifndef SERIALINPUT_H
 #define SERIALINPUT_H
 
-#include "QueueList.h"
-#include "mthread.h"
+#include <QueueList.h>
+#include <mthread.h>
 #include "command.h"
 
 #define MOVEMENT_TIME 500

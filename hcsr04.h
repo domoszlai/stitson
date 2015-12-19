@@ -1,7 +1,7 @@
 #ifndef HCSR04_H
 #define HCSR04_H
 
-#include "NewPing.h"
+#include <NewPing.h>
 
 class HCSR04
 {

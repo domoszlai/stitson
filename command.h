@@ -1,13 +1,12 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#define MINDISTANCE 6
-
-#include "mthread.h"
+#include <mthread.h>
 #include "wheel.h"
 #include "speaker.h"
 #include "hcsr04.h"
 #include "light.h"
+#include "robotcar.h"
 
 class Command : public Thread
 {

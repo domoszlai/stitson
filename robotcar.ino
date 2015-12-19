@@ -1,4 +1,4 @@
-#include "mthread.h"
+#include <mthread.h>
 #include "wheel.h"
 #include "command.h"
 #include "speaker.h"
@@ -12,14 +12,14 @@ Wheel FR(2, 38, 36);
 Wheel FL(3, 42, 40);
 
 HCSR04 D(A0,A1);
-Speaker speaker(A2);
-Light light(6,7,8);
+Speaker speaker(A14);
+Light light(A13);
 
 Command command(&FL,&FR,&RL,&RR,&speaker,&D,&light);
 
 void setup()
 {
-    // Initialize the serial connection. Does not work witg PS2 controller
+    // Initialize the serial connection
     Serial.begin(9600);
 
 //    light.set(0,1.0,0);

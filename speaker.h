@@ -1,7 +1,7 @@
 #ifndef SPEAKER_H
 #define SPEAKER_H
 
-#include "mthread.h"
+#include <mthread.h>
 
 enum Melody
 {

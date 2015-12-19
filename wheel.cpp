@@ -1,4 +1,3 @@
-#include "mthread.h"
 #include "wheel.h"
 
 Wheel::Wheel(int speedPin, int dir1Pin, int dir2Pin)

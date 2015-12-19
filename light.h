@@ -1,26 +1,19 @@
 #ifndef LIGHT_H
 #define LIGHT_H
 
-#include "mthread.h"
+#include <mthread.h>
 
 class Light : public Thread
 {
 public:
-    Light(int RPin, int GPin, int BPin);
+    Light(int pin);
         
     void start();
-    void stop();
-    
-    void set(float r, float g, float b);
-    
+    void stop();    
 protected:
     bool loop();
 private:
-    int RPin;
-    int GPin;
-    int BPin;
-
-    long state;
+    int pin;
 };
 
 #endif  // LIGHT_H

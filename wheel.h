@@ -1,7 +1,7 @@
 #ifndef WHEEL_H
 #define WHEEL_H
 
-#include "mthread.h"
+#include <mthread.h>
 
 class Wheel : public Thread
 {

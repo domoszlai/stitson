@@ -1,7 +1,6 @@
-#include "mthread.h"
+#include <NewTone.h>
 #include "speaker.h"
 #include "pitches.h"
-#include "NewTone.h"
 
 Speaker::Speaker(int speakerPin)
 {
