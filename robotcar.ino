@@ -33,6 +33,7 @@ void setup()
     main_thread_list->add_thread(&speaker);
     main_thread_list->add_thread(&command); 
     main_thread_list->add_thread(&light);
+    main_thread_list->add_thread(&D);
     
 //    main_thread_list->add_thread(new SerialInput(&command));
     main_thread_list->add_thread(new PS2Input(50,48,46,44, &command));   

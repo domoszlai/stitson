@@ -2,39 +2,57 @@
 #include "hcsr04.h"
 #include "robotcar.h"
 
+#define MAX_DISTANCE 200 // Maximum distance (in cm) to ping.
+#define PING_INTERVAL 33 // Milliseconds between sensor pings (29ms is about the min to avoid cross-sensor echo).
+
+HCSR04* sonarAdapter;
+
 HCSR04::HCSR04(int triggerPin, int echoPin)
 {
-    //this->sonar = new NewPing(triggerPin, echoPin, 200);
-    //this->lastMeasureTime = -200;
+    sonarAdapter = this;
+    this->sonar = new NewPing(triggerPin, echoPin, 200);
+    this->lastMeasure = MAX_DISTANCE;
+    this->lastMeasureTime = 0;
+}
+
+void globalEchoCheck()
+{
+   sonarAdapter->echoCheck();
+}
+
+void HCSR04::echoCheck() 
+{
+    if (this->sonar->check_timer()) {
+        this->lastMeasure = this->sonar->ping_result / US_ROUNDTRIP_CM;
+
+        #ifdef DEBUG
+        Serial.print("HCSR04: ");
+        Serial.println(this->lastMeasure);
+        #endif        
+    }
 }
 
 long HCSR04::measure()
 {
-    if(this->sonar == NULL) return 1000; // NICE big number
-
-    if(millis() - this->lastMeasureTime < 50) return this->lastMeasure;
-  
-    int result = this->sonar->ping();
-    result = this->sonar->convert_cm(result);
-    
-    if(result > 0 && abs(this->lastMeasure - result) > 20)
+    if(this->sonar == NULL)
     {
-      #ifdef DEBUG
-      Serial.println("HCSR04 FLIP");
-      #endif
-      
-      result = this->sonar->ping_median(10);
-      result = this->sonar->convert_cm(result);      
+        return MAX_DISTANCE;
     }
-    
-    this->lastMeasure = result == 0 ? 200 /* far away */ : result;
-    this->lastMeasureTime = millis();
-    
-    #ifdef DEBUG
-    Serial.print("HCSR04: ");
-    Serial.println(lastMeasure);
-    #endif
-    
-    return this->lastMeasure;
+    else
+    {        
+        return this->lastMeasure;
+    }    
 }
+
+bool HCSR04::loop()
+{
+    if (millis() >= this->lastMeasureTime + PING_INTERVAL) 
+    {
+        this->lastMeasureTime = millis();
+        this->sonar->ping_timer(globalEchoCheck);
+    }
+
+    return true;
+}
+
 

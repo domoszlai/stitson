@@ -3,12 +3,14 @@
 
 #include <NewPing.h>
 
-class HCSR04
+class HCSR04 : public Thread
 {
 public:
     HCSR04(int triggerPin, int echoPin);
         
     long measure();
+
+    void echoCheck();
     
 protected:
     bool loop();
