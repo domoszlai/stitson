@@ -10,7 +10,7 @@ PS2Input::PS2Input(int pinDAT, int pinCMD, int pinSEL, int pinCLK, Command* comm
     ps2x.config_gamepad(pinCLK, pinCMD, pinSEL, pinDAT, false, false);
 }
 
-  bool PS2Input::loop()
+bool PS2Input::loop()
 {
     ps2x.read_gamepad(false, false);
 
@@ -85,16 +85,18 @@ PS2Input::PS2Input(int pinDAT, int pinCMD, int pinSEL, int pinCLK, Command* comm
     {
         #ifdef DEBUG      
         Serial.print("FORWARD: ");
-        Serial.println(y);      
+        Serial.print(y);
+        Serial.print(", SPEED: ");
+        Serial.println((127-y)/127.0);
         #endif
         
-        command->setSpeed((127-y)/126.0);
+        command->setSpeed((127-y)/127.0);
         command->goForward();
     }
     else
     {
         byte x = ps2x.Analog(PSS_LX);
-        if(x > 160) // Slightly broken...
+        if(x > 160) // My device is slightly broken...
         {
             #ifdef DEBUG     
             Serial.print("RIGHT: ");      

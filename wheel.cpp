@@ -40,7 +40,8 @@ void Wheel::stop()
 
 void Wheel::setSpeed(float speed)
 {
-    if(speed < 0 || speed > 1) return;
+    if(speed < 0) speed = 0;
+    if(speed > 1) speed = 1;
     if(speed < 0.3) speed = 0.3;
     this->speed = speed;
     
