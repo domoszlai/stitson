@@ -4,14 +4,14 @@
 #include <mthread.h>
 #include "wheel.h"
 #include "speaker.h"
-#include "hcsr04.h"
+#include "sonarnp.h"
 #include "light.h"
 #include "robotcar.h"
 
 class Command : public Thread
 {
 public:
-    Command(Wheel* FL, Wheel* FR, Wheel* RL, Wheel* RR, Speaker* speaker, HCSR04* D, Light* light);
+    Command(Wheel* FL, Wheel* FR, Wheel* RL, Wheel* RR, Speaker* speaker, SonarNP* D, Light* light);
 
     void setSpeed(float speed); // 0-1
     float getSpeed();
@@ -46,7 +46,7 @@ private:
     Wheel* RL;
     Wheel* RR;
     Speaker* speaker;
-    HCSR04* D;
+    SonarNP* D;
     Light* light;
 };
 

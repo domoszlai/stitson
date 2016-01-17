@@ -1,6 +1,6 @@
 #include "command.h"
 
-Command::Command(Wheel* FL, Wheel* FR, Wheel* RL, Wheel* RR, Speaker* speaker, HCSR04* D, Light* light)
+Command::Command(Wheel* FL, Wheel* FR, Wheel* RL, Wheel* RR, Speaker* speaker, SonarNP* D, Light* light)
 {
     this->FL = FL;
     this->FR = FR;

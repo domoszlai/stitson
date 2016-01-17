@@ -1,35 +1,43 @@
-#include <mthread.h>
-#include "hcsr04.h"
+#include "sonarnp.h"
 #include "robotcar.h"
 
-HCSR04* sonarAdapter;
+SonarNP* SonarNP::instance = NULL;
 
-HCSR04::HCSR04(int triggerPin, int echoPin)
+SonarNP::SonarNP(int triggerPin, int echoPin)
 {
-    sonarAdapter = this;
-
     lastMeasure = MAX_CM_DISTANCE;
-    lastMeasureTime = 0;
-    nrReadings = 0;
-
-    for(int i=0; i<5; i++)
+    
+    if(instance == NULL)
     {
-      lastReadings[i] = MAX_CM_DISTANCE;
+        instance = this;
+
+        lastMeasureTime = 0;
+        nrReadings = 0;
+
+        // This makes the first measurements returning MAX_CM_DISTANCE 
+        for(int i=0; i<5; i++)
+        {
+            lastReadings[i] = MAX_CM_DISTANCE;
+        }
+    
+        #ifdef ENABLE_SONAR
+        sonar = new NewPing(triggerPin, echoPin, MAX_CM_DISTANCE);
+        #else
+        sonar = NULL;
+        #endif  
     }
-
-    #ifdef ENABLE_SONAR
-    sonar = new NewPing(triggerPin, echoPin, MAX_CM_DISTANCE);
-    #else
-    sonar = NULL;
-    #endif
+    else
+    {
+        Serial.println("WARNING: HCSR04: Only one instance can be created");
+    }
 }
 
-void globalEchoCheck()
+void SonarNP::globalEchoCheck()
 {
-   sonarAdapter->echoCheck();
+    instance->echoCheck();
 }
 
-void HCSR04::echoCheck() 
+void SonarNP::echoCheck() 
 {
     if (sonar->check_timer()) {
     
@@ -43,20 +51,10 @@ void HCSR04::echoCheck()
                   lastReadings[4]);
                
         #ifdef DEBUG
-/*        Serial.print("HCSR04 lastReading: ");
-        Serial.println(sonar->ping_result / US_ROUNDTRIP_CM);
-        Serial.print("HCSR04 lastReadings: ");
-        Serial.print(lastReadings[0]);
-        Serial.print(", ");
-        Serial.print(lastReadings[1]);
-        Serial.print(", ");
-        Serial.print(lastReadings[2]);
-        Serial.print(", ");
-        Serial.print(lastReadings[3]);
-        Serial.print(", ");
-        Serial.println(lastReadings[4]);*/
-        Serial.print("HCSR04 median: ");
-        Serial.println(this->lastMeasure);
+        Serial.print("HCSR04 reading: ");
+        Serial.print(lastReadings[(nrReadings - 1) % 5]);
+        Serial.print(", median: ");
+        Serial.println(lastMeasure);
         #endif        
     }
 }
@@ -66,7 +64,8 @@ void HCSR04::echoCheck()
 #define sort(a,b) if(a>b){ swap(a,b); }
 
 // http://cs.engr.uky.edu/~lewis/essays/algorithms/sortnets/sort-net.html
-int HCSR04::median(int a, int b, int c, int d, int e)
+// Median could be computed two less steps...
+int SonarNP::median(int a, int b, int c, int d, int e)
 {
     sort(a,b);
     sort(d,e);  
@@ -82,12 +81,12 @@ int HCSR04::median(int a, int b, int c, int d, int e)
     return c;
 }
 
-long HCSR04::measure()
+int SonarNP::measure()
 {
     return lastMeasure;
 }
 
-bool HCSR04::loop()
+bool SonarNP::loop()
 {
     if(sonar == NULL) return false;
   

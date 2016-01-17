@@ -11,7 +11,7 @@ Wheel RL(4, 30, 28);
 Wheel FR(2, 38, 36);
 Wheel FL(3, 42, 40);
 
-HCSR04 D(A0,A1);
+SonarNP D(A0,A1);
 Speaker speaker(A14);
 Light light(A13);
 
