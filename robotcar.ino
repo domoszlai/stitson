@@ -22,6 +22,8 @@ void setup()
     // Initialize the serial connection
     Serial.begin(9600);
 
+    speaker.play(MELODY1, 1);
+
 //    light.set(0,1.0,0);
 //    delay(1000);
 //    light.set(0,0,0);

@@ -88,6 +88,7 @@ void Command::goBackward()
 void Command::stop()
 {
     forward = false;  
+    speed = 0;
     
     FL->stop();
     FR->stop();    
@@ -128,7 +129,7 @@ bool Command::loop()
         }  
     }
     
-    if(D->measure()<MINDISTANCE && this->forward)
+    if(D->measure()< (MINDISTANCE * (1 + getSpeed())) && this->forward)
     {
       this->stop();
     }

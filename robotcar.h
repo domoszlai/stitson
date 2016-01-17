@@ -2,7 +2,7 @@
 #define ROBOTCAR_H
 
 #define MINDISTANCE 15
-//#define ENABLE_SONAR
+#define ENABLE_SONAR
 
 //#define DEBUG 1
 
