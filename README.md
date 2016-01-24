@@ -1,4 +1,6 @@
 # robotcar
-Firmware of the my robotcar.
+Firmware of the my robotcar, Mr. Stitson.
 
-First version: http://dlacko.blogspot.com/2015/11/robot-car-v1.html
+http://dlacko.blogspot.com/2016/01/mr-stitson-kid-friendly-arduino-lego.html
+
+
