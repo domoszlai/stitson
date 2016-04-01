@@ -11,8 +11,8 @@ PS2Input::PS2Input(int pinDAT, int pinCMD, int pinSEL, int pinCLK, Command* comm
 }
 
 bool PS2Input::loop()
-{
-    ps2x.read_gamepad(false, false);
+{ 
+    if(!ps2x.read_gamepad(false, 0x00)) return true;
 
     if(ps2x.ButtonPressed(PSB_CIRCLE))
     {
@@ -57,7 +57,6 @@ bool PS2Input::loop()
       #endif
       
       command->play(SIREN, -1);
-      command->lightOn();
     }    
 
     if(ps2x.ButtonPressed(PSB_R2))
@@ -67,7 +66,6 @@ bool PS2Input::loop()
       #endif
       
       command->mute();
-      command->lightOff();
     }    
 
     byte y = ps2x.Analog(PSS_LY);
@@ -118,11 +116,11 @@ bool PS2Input::loop()
         }
         else
         {
-            command->stop();        
+          command->stop();
         }
     }
     
-    sleep_milli(50);
+    sleep_milli(20);
     
     return true;
 }

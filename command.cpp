@@ -10,8 +10,8 @@ Command::Command(Wheel* FL, Wheel* FR, Wheel* RL, Wheel* RR, Speaker* speaker, S
     this->D = D;
     this->light = light;
         
-    this->speed = 1;
-    this->maxMovement = 30;
+    this->speed = 0;
+    this->maxMovement = 25;
     this->endTime = 0; // turn off timer
     this->forward = false;
 }
@@ -63,14 +63,14 @@ void Command::startTimer()
 
 void Command::goForward()
 {
-    if(D->measure()<MINDISTANCE) return;
-  
+    if(D->measure()< (MINDISTANCE * (1 + getSpeed() * 2))) return;
+
     forward = true;  
-  
+
     FL->goForward();
     FR->goForward();    
     RL->goForward();
-    RR->goForward();
+    RR->goForward();        
     this->startTimer();    
 }
 
@@ -121,15 +121,12 @@ void Command::turnRight()
 
 bool Command::loop()
 {
-    if(this->endTime > 0)
+    if(millis() > this->endTime)
     {
-        if(millis() > this->endTime)
-        {
-            this->stop();
-        }  
-    }
+      this->stop();
+    }  
     
-    if(D->measure()< (MINDISTANCE * (1 + getSpeed())) && this->forward)
+    if(D->measure()< (MINDISTANCE * (1 + getSpeed() * 2)) && this->forward)
     {
       this->stop();
     }
