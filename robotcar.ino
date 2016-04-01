@@ -5,6 +5,7 @@
 #include "light.h"
 #include "serialinput.h"
 #include "ps2input.h"
+#include "acs712.h"
 
 Wheel RR(5, 34, 32);
 Wheel RL(4, 30, 28);
@@ -20,7 +21,7 @@ Command command(&FL,&FR,&RL,&RR,&speaker,&D,&light);
 void setup()
 {
     // Initialize the serial connection
-    Serial.begin(9600);
+    Serial.begin(115200);
 
     speaker.play(MELODY1, 1);
 
@@ -36,9 +37,11 @@ void setup()
     main_thread_list->add_thread(&command); 
     main_thread_list->add_thread(&light);
     main_thread_list->add_thread(&D);
+    //main_thread_list->add_thread(new ACS712(A0));
     
 //    main_thread_list->add_thread(new SerialInput(&command));
-    main_thread_list->add_thread(new PS2Input(50,48,46,44, &command));   
+   // main_thread_list->add_thread(new PS2Input(50,48,46,44, &command));   
+    main_thread_list->add_thread(new PS2Input(31,33,35,37, &command));   
 }
 
 
